@@ -21,45 +21,11 @@
             <div class="auth-card__form-container">
                 <header class="auth-card__form-header">
                     <h2 class="auth-card__form-title">
-                        Cadastro de usuário
+                        Entrar na conta
                     </h2>
                 </header>
 
                 <form class="auth-card__registration-form">
-                    <div class="auth-card__photo-upload-group">
-                        <div class="auth-card__photo-input-wrapper">
-                            <div class="auth-card__photo-placeholder">
-                                <span class="material-symbols-outlined">
-                                    add_a_photo
-                                </span>
-                            </div>
-
-                            <input type="file" class="auth-card__file-input"/>
-                        </div>
-
-                        <div class="auth-card__photo-info">
-                            <p class="auth-card__info-label">
-                                Identidade do Perfil
-                            </p>
-                            <p class="auth-card__info-helper">
-                                Recomendado: 400x400px JPG ou PNG
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="auth-card__input-group">
-                        <label class="auth-card__field-label">
-                            Nome Completo
-                        </label>
-
-                        <div class="auth-card__input-wrapper">
-                            <span class="material-symbols-outlined auth-card__input-icon">
-                                person
-                            </span>
-                            <input class="auth-card__form-input" placeholder="João Silva" type="text" required />
-                        </div>
-                    </div>
-
                     <div class="auth-card__input-group">
                         <label class="auth-card__field-label">
                             Email
@@ -88,7 +54,7 @@
                     </div>
 
                     <button class="auth-card__submit-button" type="submit">
-                        <span>Criar Conta</span>
+                        <span>Entrar</span>
 
                         <span class="material-symbols-outlined auth-card__btn-icon">
                             arrow_forward
@@ -98,9 +64,9 @@
 
                 <footer class="auth-card__form-footer">
                     <p class="auth-card__footer-text">
-                        Já tem uma conta?
-                        <router-link class="auth-card__login-link" to="/login">
-                            Entrar
+                        Não tem uma conta?
+                        <router-link class="auth-card__login-link" to="/register">
+                            Criar conta
                         </router-link>
                     </p>
                 </footer>

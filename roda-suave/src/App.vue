@@ -1,9 +1,7 @@
-<script setup lang="ts">
-import Register from './components/auth/Register.vue';
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <Register></Register>
+  <router-view />
 </template>
 
 <style scoped></style>
