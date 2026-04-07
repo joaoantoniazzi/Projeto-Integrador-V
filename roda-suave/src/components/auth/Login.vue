@@ -1,4 +1,29 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+    import { ref } from "vue";
+    import { login } from "./AuthScript";
+    import { onAuthStateChanged } from "firebase/auth";
+    import { auth } from "../../firebase";
+
+    const email = ref("");
+    const senha = ref("");
+
+    onAuthStateChanged(auth, (user) => {
+
+    if (user) {
+        
+        // DEFINE O QUE ACONTECE QUANDO O USUÁRIO ESTÁ LOGADO
+        //
+        // Temos que mexer nisso quando tivermos uma home pronta
+
+        window.alert("Você já está logado!");
+    }
+
+    });
+
+    function fazerLogin() {
+        login(email.value, senha.value);
+    }
+</script>
 
 <template>
     <main class="auth-card">
@@ -35,7 +60,7 @@
                             <span class="material-symbols-outlined auth-card__input-icon">
                                 alternate_email
                             </span>
-                            <input class="auth-card__form-input" placeholder="joao@rodasuave.com" type="email"
+                            <input v-model="email" class="auth-card__form-input" placeholder="joao@rodasuave.com" type="email"
                                 required />
                         </div>
                     </div>
@@ -49,11 +74,11 @@
                             <span class="material-symbols-outlined auth-card__input-icon">
                                 lock
                             </span>
-                            <input class="auth-card__form-input" placeholder="••••••••" type="password" required />
+                            <input v-model="senha" class="auth-card__form-input" placeholder="••••••••" type="password" required />
                         </div>
                     </div>
 
-                    <button class="auth-card__submit-button" type="submit">
+                    <button class="auth-card__submit-button" type="button" @click="fazerLogin">
                         <span>Entrar</span>
 
                         <span class="material-symbols-outlined auth-card__btn-icon">
