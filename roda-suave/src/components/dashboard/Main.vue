@@ -1,4 +1,25 @@
 <script lang="ts" setup>
+import { computed, ref } from 'vue';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebase';
+
+const user = ref(null);
+
+onAuthStateChanged(auth, (currentUser) => {
+    user.value = currentUser;
+});
+
+const seed = computed(() => {
+    return user.value ? (user.value.displayName || user.value.email || 'User') : 'Arthur Dent';
+});
+
+const src = computed(() => {
+    const url = new URL('https://api.dicebear.com/9.x/notionists-neutral/svg');
+    url.searchParams.set('seed', seed.value);
+    url.searchParams.set('size', '40');
+
+    return url.href;
+});
 </script>
 
 <template>
@@ -26,7 +47,9 @@
                 </div>
 
                 <div class="dashboard__user">
-                    <div class="dashboard__avatar"></div>
+                    <div class="dashboard__avatar">
+                        <img :src="src" alt="Avatar" />
+                    </div>
                 </div>
             </header>
 
@@ -128,8 +151,9 @@ $border: #e5e7eb;
     &__avatar {
         width: 40px;
         height: 40px;
-        background: linear-gradient(135deg, $primary, $primary-dark);
+        border: 1px solid $border;
         border-radius: 50%;
+        overflow: hidden;
     }
 }
 
