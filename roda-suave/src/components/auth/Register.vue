@@ -4,9 +4,10 @@
 
     const email = ref("");
     const senha = ref("");
+    const name = ref("");
 
     function cadastrarUsuario() {
-        cadastrar(email.value, senha.value);
+        cadastrar(email.value, senha.value, name.value);
     }
 </script>
 
@@ -66,7 +67,7 @@
                             <span class="material-symbols-outlined auth-card__input-icon">
                                 person
                             </span>
-                            <input class="auth-card__form-input" placeholder="João Silva" type="text" required />
+                            <input v-model="name" class="auth-card__form-input" placeholder="João Silva" type="text" required />
                         </div>
                     </div>
 
