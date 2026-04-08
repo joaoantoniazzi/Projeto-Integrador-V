@@ -1,24 +1,56 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import { onAuthStateChanged } from 'firebase/auth';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
+import type { User } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { useRouter } from 'vue-router';
 import { auth } from '../../firebase';
 
-const user = ref(null);
+const router = useRouter();
+const user = ref<User | null>(null);
+const isDropdownOpen = ref(false);
+let unsubscribeAuth: (() => void) | null = null;
 
-onAuthStateChanged(auth, (currentUser) => {
-    user.value = currentUser;
+const userDisplayName = computed(() => {
+    if (!user.value) return 'Arthur Dent';
+    return user.value.displayName || user.value.email || 'User';
 });
 
-const seed = computed(() => {
-    return user.value ? (user.value.displayName || user.value.email || 'User') : 'Arthur Dent';
-});
-
-const src = computed(() => {
+const avatarSrc = computed(() => {
     const url = new URL('https://api.dicebear.com/9.x/notionists-neutral/svg');
-    url.searchParams.set('seed', seed.value);
+    url.searchParams.set('seed', userDisplayName.value);
     url.searchParams.set('size', '40');
-
     return url.href;
+});
+
+const closeDropdown = () => {
+    isDropdownOpen.value = false;
+};
+
+const toggleDropdown = () => {
+    isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+const logout = async () => {
+    try {
+        await signOut(auth);
+        router.push('/login');
+    } finally {
+        closeDropdown();
+    }
+};
+
+const handleDocumentClick = () => closeDropdown();
+
+onMounted(() => {
+    unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+        user.value = currentUser;
+    });
+    document.addEventListener('click', handleDocumentClick);
+});
+
+onUnmounted(() => {
+    if (unsubscribeAuth) unsubscribeAuth();
+    document.removeEventListener('click', handleDocumentClick);
 });
 </script>
 
@@ -46,9 +78,16 @@ const src = computed(() => {
                     </p>
                 </div>
 
-                <div class="dashboard__user">
+                <div class="dashboard__user" @click.stop="toggleDropdown">
                     <div class="dashboard__avatar">
-                        <img :src="src" alt="Avatar" />
+                        <img :src="avatarSrc" alt="Avatar" />
+                    </div>
+
+                    <div v-if="isDropdownOpen" class="dropdown" @click.stop>
+                        <button @click="logout" class="dropdown__item red">
+                            <span class="material-symbols-outlined">logout</span>
+                            Sair
+                        </button>
                     </div>
                 </div>
             </header>
@@ -148,6 +187,12 @@ $border: #e5e7eb;
         color: $text-soft;
     }
 
+    &__user {
+        height: fit-content;
+        position: relative;
+        cursor: pointer;
+    }
+
     &__avatar {
         width: 40px;
         height: 40px;
@@ -191,6 +236,43 @@ $border: #e5e7eb;
 
     &:hover {
         opacity: 0.9;
+    }
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: white;
+    border: 1px solid $border;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    min-width: 120px;
+
+    &__item {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: none;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: .25rem;
+
+        span {
+            font-size: 1rem;
+        }
+
+        &:hover {
+            background: #f3f4f6;
+        }
+
+        &.red {
+            color: #c50b0b;
+        }
     }
 }
 </style>
