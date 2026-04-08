@@ -3,7 +3,9 @@
     import { login } from "./AuthScript";
     import { onAuthStateChanged } from "firebase/auth";
     import { auth } from "../../firebase";
+    import { useRouter } from "vue-router";
 
+    const router = useRouter();
     const email = ref("");
     const senha = ref("");
 
@@ -11,11 +13,8 @@
 
     if (user) {
         
-        // DEFINE O QUE ACONTECE QUANDO O USUÁRIO ESTÁ LOGADO
-        //
-        // Temos que mexer nisso quando tivermos uma home pronta
-
-        window.alert("Você já está logado!");
+        // Redireciona para o dashboard quando o usuário está logado
+        router.push('/dashboard');
     }
 
     });
