@@ -4,15 +4,17 @@ import type { User } from 'firebase/auth';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 import { auth } from '../../firebase';
+import { useUserStore } from '../../stores/userStore';
+
+const userStore = useUserStore();
 
 const router = useRouter();
-const user = ref<User | null>(null);
 const isDropdownOpen = ref(false);
 let unsubscribeAuth: (() => void) | null = null;
 
 const userDisplayName = computed(() => {
-    if (!user.value) return 'Arthur Dent';
-    return user.value.displayName || user.value.email || 'User';
+    if (!userStore.user) return 'Arthur Dent';
+    return userStore.profile?.name || userStore.profile?.email || 'User';
 });
 
 const avatarSrc = computed(() => {
@@ -43,7 +45,7 @@ const handleDocumentClick = () => closeDropdown();
 
 onMounted(() => {
     unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
-        user.value = currentUser;
+        userStore.user = currentUser;
     });
     document.addEventListener('click', handleDocumentClick);
 });
@@ -84,6 +86,10 @@ onUnmounted(() => {
                     </div>
 
                     <div v-if="isDropdownOpen" class="dropdown" @click.stop>
+                        <span class="dropdown__username">Olá, {{ userDisplayName }}</span>
+
+                        <hr class="dropdown__divider">
+
                         <button @click="logout" class="dropdown__item red">
                             <span class="material-symbols-outlined">logout</span>
                             Sair
@@ -248,21 +254,39 @@ $border: #e5e7eb;
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    min-width: 120px;
+    min-width: 200px;
+    cursor: default;
+    padding: 0.5rem 0.75rem 0.75rem;
+
+    &__username {
+        display: block;
+        padding: 0.5rem;
+        font-weight: 600;
+        color: $text;
+    }
+
+    &__divider {
+        background-color: $border;
+        display: flex;
+        margin: 0 auto;
+        height: 1px;
+    }
 
     &__item {
         width: 100%;
-        padding: 0.75rem 1rem;
+        padding: 0.25rem 0.5rem;
         background: none;
         border: none;
+        border-radius: .25rem;
         text-align: left;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: flex-start;
         gap: .25rem;
+        margin-top: .5rem;
 
-        span {
+        span[class^="material-symbols"] {
             font-size: 1rem;
         }
 
