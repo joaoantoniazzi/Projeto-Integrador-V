@@ -49,7 +49,7 @@
                     </h2>
                 </header>
 
-                <form class="auth-card__registration-form">
+                <form class="auth-card__registration-form" @submit.prevent="fazerLogin">
                     <div class="auth-card__input-group">
                         <label class="auth-card__field-label">
                             Email
@@ -77,7 +77,7 @@
                         </div>
                     </div>
 
-                    <button class="auth-card__submit-button" type="button" @click="fazerLogin">
+                    <button class="auth-card__submit-button" type="submit">
                         <span>Entrar</span>
 
                         <span class="material-symbols-outlined auth-card__btn-icon">

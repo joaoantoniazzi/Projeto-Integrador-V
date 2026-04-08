@@ -35,7 +35,7 @@
                     </h2>
                 </header>
 
-                <form class="auth-card__registration-form">
+                <form class="auth-card__registration-form" @submit.prevent="cadastrarUsuario">
                     <div class="auth-card__photo-upload-group">
                         <div class="auth-card__photo-input-wrapper">
                             <div class="auth-card__photo-placeholder">
@@ -97,7 +97,7 @@
                         </div>
                     </div>
 
-                    <button class="auth-card__submit-button" type="button" @click="cadastrarUsuario">
+                    <button class="auth-card__submit-button" type="submit">
                         <span>Criar Conta</span>
 
                         <span class="material-symbols-outlined auth-card__btn-icon">
