@@ -1,27 +1,15 @@
 <script setup lang="ts">
-    import { ref } from "vue";
-    import { login } from "./AuthScript";
-    import { onAuthStateChanged } from "firebase/auth";
-    import { auth } from "../../firebase";
-    import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { loginUser } from "./AuthScript";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
 
-    const router = useRouter();
-    const email = ref("");
-    const senha = ref("");
+const email = ref("");
+const password = ref("");
 
-    onAuthStateChanged(auth, (user) => {
-
-    if (user) {
-        
-        // Redireciona para o dashboard quando o usuário está logado
-        router.push('/dashboard');
-    }
-
-    });
-
-    function fazerLogin() {
-        login(email.value, senha.value);
-    }
+function login() {
+    loginUser(email.value, password.value);
+}
 </script>
 
 <template>
@@ -49,7 +37,7 @@
                     </h2>
                 </header>
 
-                <form class="auth-card__registration-form" @submit.prevent="fazerLogin">
+                <form class="auth-card__registration-form" @submit.prevent="login">
                     <div class="auth-card__input-group">
                         <label class="auth-card__field-label">
                             Email
@@ -59,8 +47,8 @@
                             <span class="material-symbols-outlined auth-card__input-icon">
                                 alternate_email
                             </span>
-                            <input v-model="email" class="auth-card__form-input" placeholder="joao@rodasuave.com" type="email"
-                                required />
+                            <input v-model="email" class="auth-card__form-input" placeholder="joao@rodasuave.com"
+                                type="email" required />
                         </div>
                     </div>
 
@@ -73,7 +61,8 @@
                             <span class="material-symbols-outlined auth-card__input-icon">
                                 lock
                             </span>
-                            <input v-model="senha" class="auth-card__form-input" placeholder="••••••••" type="password" required />
+                            <input v-model="password" class="auth-card__form-input" placeholder="••••••••"
+                                type="password" required />
                         </div>
                     </div>
 

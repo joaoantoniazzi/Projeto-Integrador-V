@@ -4,16 +4,16 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const db = getFirestore();
 
-export function botaoLogout() {
+export function logoutUser() {
   signOut(auth);
 }
 
-export async function cadastrar(email: string, senha: string, name: string) {
+export async function registerUser(email: string, password: string, name: string) {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
-      senha,
+      password,
     );
     const user = userCredential.user;
 
@@ -29,8 +29,8 @@ export async function cadastrar(email: string, senha: string, name: string) {
   }
 }
 
-export function login(email: string, senha: string) {
-  signInWithEmailAndPassword(auth, email, senha).catch((error) => {
+export function loginUser(email: string, password: string) {
+  signInWithEmailAndPassword(auth, email, password).catch((error) => {
     window.alert("Erro ao fazer login: " + error.message);
   });
 }

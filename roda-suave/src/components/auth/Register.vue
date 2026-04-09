@@ -1,13 +1,13 @@
 <script setup lang="ts">
     import { ref } from "vue";
-    import { cadastrar } from "./AuthScript";
+    import { registerUser } from "./AuthScript";
 
     const email = ref("");
-    const senha = ref("");
+    const password = ref("");
     const name = ref("");
 
-    function cadastrarUsuario() {
-        cadastrar(email.value, senha.value, name.value);
+    function register() {
+        registerUser(email.value, password.value, name.value);
     }
 </script>
 
@@ -36,7 +36,7 @@
                     </h2>
                 </header>
 
-                <form class="auth-card__registration-form" @submit.prevent="cadastrarUsuario">
+                <form class="auth-card__registration-form" @submit.prevent="register">
                     <div class="auth-card__photo-upload-group">
                         <div class="auth-card__photo-input-wrapper">
                             <div class="auth-card__photo-placeholder">
@@ -94,7 +94,7 @@
                             <span class="material-symbols-outlined auth-card__input-icon">
                                 lock
                             </span>
-                            <input v-model="senha" class="auth-card__form-input" placeholder="••••••••" type="password" required />
+                            <input v-model="password" class="auth-card__form-input" placeholder="••••••••" type="password" required />
                         </div>
                     </div>
 

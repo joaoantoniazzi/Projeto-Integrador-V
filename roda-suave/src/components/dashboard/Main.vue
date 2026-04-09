@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import type { User } from 'firebase/auth';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 import { auth } from '../../firebase';
 import { useUserStore } from '../../stores/userStore';
+import { logoutUser } from '../auth/AuthScript';
 
 const userStore = useUserStore();
 
 const router = useRouter();
 const isDropdownOpen = ref(false);
-let unsubscribeAuth: (() => void) | null = null;
 
 const userDisplayName = computed(() => {
     if (!userStore.user) return 'Arthur Dent';
@@ -32,26 +31,13 @@ const toggleDropdown = () => {
     isDropdownOpen.value = !isDropdownOpen.value;
 };
 
-const logout = async () => {
-    try {
-        await signOut(auth);
-        router.push('/login');
-    } finally {
-        closeDropdown();
-    }
-};
-
 const handleDocumentClick = () => closeDropdown();
 
 onMounted(() => {
-    unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
-        userStore.user = currentUser;
-    });
     document.addEventListener('click', handleDocumentClick);
 });
 
 onUnmounted(() => {
-    if (unsubscribeAuth) unsubscribeAuth();
     document.removeEventListener('click', handleDocumentClick);
 });
 </script>
@@ -90,7 +76,7 @@ onUnmounted(() => {
 
                         <hr class="dropdown__divider">
 
-                        <button @click="logout" class="dropdown__item red">
+                        <button @click="logoutUser" class="dropdown__item red">
                             <span class="material-symbols-outlined">logout</span>
                             Sair
                         </button>
