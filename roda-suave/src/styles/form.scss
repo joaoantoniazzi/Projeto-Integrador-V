@@ -1,0 +1,162 @@
+@use './variables.scss' as vars;
+@use './btn.scss';
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+
+  &__step-wrapper {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  &__step-indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: vars.$border;
+    margin-top: 6px;
+
+    &--active {
+      background: vars.$primary;
+      box-shadow: 0 0 0 4px rgba(vars.$primary, 0.15);
+    }
+  }
+
+  &__card {
+    background: vars.$card;
+    border: 1px solid vars.$border;
+    border-radius: 1rem;
+    padding: 2rem;
+    flex: 1;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+  }
+
+  &__card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  &__section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: vars.$primary;
+  }
+
+  &__badge {
+    font-size: 10px;
+    background: #f3f4f6;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.4rem;
+    text-transform: uppercase;
+    color: vars.$text-soft;
+    font-weight: 700;
+    align-self: center;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  &__label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: vars.$text-soft;
+  }
+
+  &__input-wrapper {
+    position: relative;
+  }
+
+  &__prefix {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
+    color: vars.$text-soft;
+  }
+
+  &__input {
+    width: 100%;
+    border: 1px solid vars.$border;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #f9fafb;
+    transition: 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: vars.$primary;
+      box-shadow: 0 0 0 3px rgba(vars.$primary, 0.15);
+      background: white;
+    }
+
+    &--readonly {
+      padding-left: 2.5rem;
+      font-weight: 600;
+      color: vars.$primary;
+      background: #eef2ff;
+    }
+  }
+
+  &__upload {
+    border: 2px dashed vars.$border;
+    border-radius: 1rem;
+    padding: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+
+    span {
+      font-size: 2.5rem;
+      color: vars.$text-soft;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    &:hover {
+      border-color: vars.$primary;
+      background: #f8fafc;
+
+      span {
+        color: vars.$primary;
+      }
+    }
+  }
+
+  &__upload-title {
+    font-weight: 700;
+    color: vars.$primary;
+  }
+
+  &__upload-subtitle {
+    font-size: 0.85rem;
+    color: vars.$text-soft;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid vars.$border;
+    padding-top: 1.5rem;
+    gap: 1rem;
+  }
+}

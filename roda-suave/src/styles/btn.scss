@@ -1,0 +1,27 @@
+@use './variables.scss' as vars;
+
+.btn {
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+
+  &--primary {
+    background: linear-gradient(135deg, vars.$primary, vars.$primary-dark);
+    color: white;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: vars.$text-soft;
+
+    &:hover {
+      color: vars.$text;
+    }
+  }
+}
