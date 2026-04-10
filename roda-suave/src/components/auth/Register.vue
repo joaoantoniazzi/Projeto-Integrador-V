@@ -123,4 +123,4 @@
     <div class="bg-decoration bg-decoration--bottom-left"></div>
 </template>
 
-<style src="./Auth.scss"></style>
+<style src="/src/styles/auth.scss"></style>

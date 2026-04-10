@@ -93,6 +93,7 @@ $on-primary-container: #ffffff;
     background-color: $surface-container-low;
     height: 100vh;
     width: 100%;
+    overflow: auto;
 
     @media (min-width: 768px) {
       padding: 4rem;
